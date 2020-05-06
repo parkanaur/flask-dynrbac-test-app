@@ -1,28 +1,23 @@
 from flask import Flask
 from flask_dynrbac import DynRBAC
+from flask_dynrbac.api import generate_rbac_api
+from flask_dynrbac.domain_model_generator import DomainModelGenerator
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
 
+app = Flask(__name__)
 db = SQLAlchemy(app)
 
-m = MixinGenerator(db.Model)
+# Init domain model
+models = DomainModelGenerator(db.Model)
+db.create_all()
 
+# Init RBAC
+rbac = DynRBAC(app, role_class=models.Role, user_class=models.User, permission_class=models.Permission,
+               session=db.session, user_id_provider=lambda: 1, unit_class=models.Unit)
 
-class Role(m.get_role_class()):
-    pass
-
-
-class User(m.get_user_class()):
-    pass
-
-
-class Permission(m.get_permission_class()):
-    pass
-
-
-rbac = DynRBAC(app, role_class=Role, user_class=User, permission_class=Permission)
-print(Role.users)
+# Init RBAC API
+rbac_api = generate_rbac_api(app)
 
 
 @app.route('/')

@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 current_user_id = 1
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
 # Init domain model

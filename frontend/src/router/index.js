@@ -19,7 +19,7 @@ const routes = [
   {path: '/permissions/new', component: () => import('../views/Permissions/PermissionCreate.vue')},
 
   {path: '/units', component: () => import('../views/Units/UnitList.vue')},
-  {path: '/units/:user_id', component: () => import('../views/Units/UnitEdit.vue')},
+  {path: '/units/:unit_id', component: () => import('../views/Units/UnitEdit.vue')},
   {path: '/units/new', component: () => import('../views/Units/UnitCreate.vue')}
 ]
 

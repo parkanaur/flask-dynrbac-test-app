@@ -1,3 +1,5 @@
+const axios = require('axios').default;
+
 let PERMISSIONS_MOCK = [
     { id: 1, name: "Какать"},
     { id: 2, name: "Пукать"},
@@ -49,19 +51,16 @@ function deep_copy(data) {
 
 const api = {
     get_permissions() {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(deep_copy(PERMISSIONS_MOCK)), LOADING_TIMEOUT);
-        })
+        return axios.get(`/api/rbac/permissions`)
     },
     get_roles() {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(deep_copy(ROLES_MOCK)), LOADING_TIMEOUT);
-        })
+        return axios.get(`/api/rbac/roles`)
     },
     get_users() {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(deep_copy(USERS_MOCK)), LOADING_TIMEOUT);
-        })
+        return axios.get(`/api/rbac/users`)
+    },
+    get_units() {
+        return axios.get(`/api/rbac/units`)
     },
 
     update_user(user) {

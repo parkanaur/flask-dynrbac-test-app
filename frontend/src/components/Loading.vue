@@ -1,7 +1,7 @@
 <template>
     <div class="loading">
-        <img class="loading-img" src="https://i.pinimg.com/originals/10/b2/f6/10b2f6d95195994fca386842dae53bb2.png">
-        Подождите идёт загрузка..
+        <img class="loading-img" src="https://sun9-64.userapi.com/c206724/v206724527/12ac29/cfcrhaFIKUo.jpg">
+        Loading...
     </div>
 </template>
 

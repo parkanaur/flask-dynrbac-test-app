@@ -9,13 +9,15 @@ export default new Vuex.Store({
         loading_cnt: 0,
         permissions: [],
         roles: [],
-        users: []
+        users: [],
+        units: []
     },
     getters: {
         loading_cnt: state => state.loading_cnt,
         permissions: state => state.permissions,
         roles: state => state.roles,
         users: state => state.users,
+        units: state => state.units,
     },
     mutations: {
         inc_loading: (state) => state.loading_cnt += 1,
@@ -23,6 +25,7 @@ export default new Vuex.Store({
         set_permissions: (state, data) => state.permissions = data,
         set_roles: (state, data) => state.roles = data,
         set_users: (state, data) => state.users = data,
+        set_units: (state, data) => state.units = data,
 
         update_user(state, user) {
             let ind = state.users.findIndex(u => u.id === user.id);
@@ -52,21 +55,28 @@ export default new Vuex.Store({
         reload_permissions(context) {
             context.commit('inc_loading');
             api.get_permissions().then(data => {
-                context.commit('set_permissions', data);
+                context.commit('set_permissions', data.data);
                 context.commit('dec_loading');
             });
         },
         reload_roles(context) {
             context.commit('inc_loading');
             api.get_roles().then(data => {
-                context.commit('set_roles', data);
+                context.commit('set_roles', data.data);
                 context.commit('dec_loading');
             });
         },
         reload_users(context) {
             context.commit('inc_loading');
             api.get_users().then(data => {
-                context.commit('set_users', data);
+                context.commit('set_users', data.data);
+                context.commit('dec_loading');
+            });
+        },
+        reload_units(context) {
+            context.commit('inc_loading');
+            api.get_units().then(data => {
+                context.commit('set_units', data.data);
                 context.commit('dec_loading');
             });
         },

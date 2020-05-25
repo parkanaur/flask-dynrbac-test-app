@@ -1,49 +1,46 @@
 <template>
-    <div id="app">
-        <b-navbar>
-            <template slot="start">
-                <b-navbar-item>
-                    <router-link to="/users">Users</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link to="/roles">Roles</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link to="/permissions">Permissions</router-link>
-                </b-navbar-item>
-                <b-navbar-item>
-                    <router-link to="/units">Units</router-link>
-                </b-navbar-item>
-            </template>
-        </b-navbar>
-      <div class="container">
-        <router-view/>
-      </div>
+    <div class="app">
+        <div class="links">
+            <router-link to="/" class="lnk">Главная</router-link>
+            <router-link to="/users" class="lnk">Пользователи</router-link>
+            <router-link to="/roles" class="lnk">Роли</router-link>
+        </div>
+        <loading v-if="$store.getters.loading_cnt > 0"/>
+        <router-view v-show="$store.getters.loading_cnt === 0"/>
     </div>
 </template>
 
-<style lang="scss">
-    @import url("https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css");
-    @import url("https://use.fontawesome.com/releases/v5.2.0/css/all.css");
-
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
+<style lang="scss" scoped>
+    .app {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    #nav {
-        padding: 30px;
+    .links {
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 100px;
+    }
 
-        a {
-            font-weight: bold;
-            color: #2c3e50;
-
-            &.router-link-exact-active {
-                color: #42b983;
-            }
+    .lnk {
+        font-size: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        &.router-link-exact-active {
+            text-decoration: underline;
         }
     }
 </style>
+
+<script>
+    import Loading from '@/components/Loading.vue';
+
+    export default {
+        components: {
+            Loading
+        }
+    }
+</script>

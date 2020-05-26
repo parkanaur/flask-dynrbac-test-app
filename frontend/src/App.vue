@@ -1,9 +1,11 @@
 <template>
     <div class="app">
         <div class="links">
-            <router-link to="/" class="lnk">Главная</router-link>
-            <router-link to="/users" class="lnk">Пользователи</router-link>
-            <router-link to="/roles" class="lnk">Роли</router-link>
+            <router-link to="/" class="lnk">Index</router-link>
+            <router-link to="/users" class="lnk">Users</router-link>
+            <router-link to="/roles" class="lnk">Roles</router-link>
+            <router-link to="/permissions" class="lnk">Permissions</router-link>
+            <router-link to="/units" class="lnk">Units</router-link>
         </div>
         <loading v-if="$store.getters.loading_cnt > 0"/>
         <router-view v-show="$store.getters.loading_cnt === 0"/>

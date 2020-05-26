@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {api} from './api_mock';
+import {api} from './rbac_api';
 
 Vue.use(Vuex);
 
@@ -41,6 +41,20 @@ export default new Vuex.Store({
             else
                 Vue.set(state.roles, ind, role);
         },
+        update_permission(state, permission) {
+            let ind = state.permissions.findIndex(p => p.id === permission.id);
+            if (ind === -1)
+                state.permissions.push(permission);
+            else
+                Vue.set(state.permissions, ind, permission);
+        },
+        update_unit(state, unit) {
+            let ind = state.units.findIndex(u => u.id === unit.id);
+            if (ind === -1)
+                state.units.push(unit);
+            else
+                Vue.set(state.units, ind, unit);
+        },
 
         delete_user(state, id) {
             let ind = state.users.findIndex(u => u.id === id);
@@ -49,6 +63,14 @@ export default new Vuex.Store({
         delete_role(state, id) {
             let ind = state.roles.findIndex(r => r.id === id);
             state.roles.splice(ind, 1);
+        },
+        delete_permission(state, id) {
+            let ind = state.permissions.findIndex(r => r.id === id);
+            state.permissions.splice(ind, 1);
+        },
+        delete_unit(state, id) {
+            let ind = state.units.findIndex(r => r.id === id);
+            state.units.splice(ind, 1);
         }
     },
     actions: {
@@ -82,19 +104,45 @@ export default new Vuex.Store({
         },
 
         update_user(context, user) {
-            context.commit('update_user', api.update_user(user));
+            api.update_user(user).then(response => {
+                context.commit('update_user', user);
+            })
         },
         update_role(context, role) {
-            context.commit('update_role', api.update_role(role));
+            api.update_role(role).then(response => {
+                context.commit('update_role', role);
+            })
+        },
+        update_permission(context, permission) {
+            api.update_permission(permission).then(response => {
+                context.commit('update_permission', permission);
+            })
+        },
+        update_unit(context, unit) {
+            api.update_unit(unit).then(response => {
+                context.commit('update_unit', unit);
+            })
         },
 
         delete_user(context, id) {
-            api.delete_user(id);
-            context.commit('delete_user', id);
+            api.delete_user(id).then(response => {
+                context.commit('delete_user', id);
+            });
         },
         delete_role(context, id) {
-            api.delete_role(id);
-            context.commit('delete_role', id);
+            api.delete_role(id).then(response => {
+                context.commit('delete_role', id);
+            });
+        },
+        delete_permission(context, id) {
+            api.delete_permission(id).then(response => {
+                context.commit('delete_permission', id);
+            });
+        },
+        delete_unit(context, id) {
+            api.delete_unit(id).then(response => {
+                context.commit('delete_unit', id);
+            });
         }
     }
 })

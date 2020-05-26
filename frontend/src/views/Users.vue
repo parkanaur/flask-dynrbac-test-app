@@ -1,8 +1,8 @@
 <template>
     <div class="users-container">
-        <div class="title">Создать пользователя</div>
+        <div class="title">Create a user</div>
         <user/>
-        <div class="title" style="margin-top: 50px">Существующие пользователи</div>
+        <div class="title" style="margin-top: 50px">Existing users</div>
         <transition-group name="list-complete" tag="div" class="users">
             <user v-for="user in users" :user="user" :key="user.id" class="list-complete-item"/>
         </transition-group>

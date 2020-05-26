@@ -8,6 +8,9 @@ import sys
 
 
 def create_mock_db(db, dmg):
+    db.drop_all()
+    db.create_all()
+
     roles = [
         dmg.Role(name='role1'),
         dmg.Role(name='role2'),
@@ -73,6 +76,7 @@ current_user_id = 1
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Init domain model
@@ -107,6 +111,6 @@ def x():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] == '--create':
+    if len(sys.argv) > 1 and sys.argv[1] == '--recreate':
         create_mock_db(db, models)
     app.run()

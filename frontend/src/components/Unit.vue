@@ -1,5 +1,5 @@
 <template>
-    <div class="card user">
+    <div class="card unit">
         <div class="card-content">
 
             <b-field label="ID" class="info-column" style="width: 100px">
@@ -10,10 +10,10 @@
                 <b-input v-model="name" :disabled="!edit_mode"></b-input>
             </b-field>
 
-            <b-field label="Roles" class="info-column" style="width: 340px">
+            <b-field label="Permissions" class="info-column" style="width: 340px">
                 <b-taginput
-                        v-model="roles"
-                        :data="all_roles"
+                        v-model="permissions"
+                        :data="all_permissions"
                         :autocomplete="edit_mode"
                         :open-on-focus="edit_mode"
                         :closable="edit_mode"
@@ -53,7 +53,7 @@
 </template>
 
 <style lang="scss" scoped>
-    .user {
+    .unit {
         width: 100%;
         margin-bottom: 20px;
         .card-content {
@@ -76,20 +76,20 @@
 <script>
     export default {
         props: {
-            user: { default: null }
+            unit: { default: null }
         },
         data() {
             return {
                 id: "-",
                 name: "",
-                roles: [],
+                permissions: [],
 
                 create_mode: false,
                 edit_mode: false,
             }
         },
         mounted() {
-            if (this.user === null) {
+            if (this.unit === null) {
                 this.create_mode = true;
                 this.edit_mode = true;
             }
@@ -102,13 +102,13 @@
             },
             on_delete() {
                 if (confirm("Are you sure?"))
-                    this.$store.dispatch('delete_user', this.id);
+                    this.$store.dispatch('delete_unit', this.id);
             },
             on_save() {
-                this.$store.dispatch('update_user', {
+                this.$store.dispatch('update_unit', {
                     id: this.id,
                     name: this.name,
-                    roles: this.roles
+                    permissions: this.permissions
                 });
                 if (this.create_mode)
                     this.reset_fields();
@@ -118,24 +118,27 @@
             reset_fields() {
                 if (this.create_mode) {
                     this.name = "";
-                    this.roles = [];
+                    this.permissions = [];
                     return;
                 }
 
-                this.id = this.user.id;
-                this.name = this.user.name;
+                this.id = this.unit.id;
+                this.name = this.unit.name;
 
-                this.roles = [];
-                for (let role of this.user.roles) {
-                    this.roles.push(
-                        this.all_roles.find(_role => _role.id === role.id)
+                this.permissions = [];
+                for (let permission of this.unit.permissions) {
+                    this.permissions.push(
+                        this.all_permissions.find(_permission => _permission.id === permission.id)
                     );
                 }
             }
         },
         computed: {
-            all_roles() {
-                return this.$store.getters.roles;
+            all_permissions() {
+                return this.$store.getters.permissions;
+            },
+            all_units() {
+                return this.$store.getters.units;
             }
         }
     }

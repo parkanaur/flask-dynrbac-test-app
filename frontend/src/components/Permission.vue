@@ -1,5 +1,5 @@
 <template>
-    <div class="card role">
+    <div class="card permission">
         <div class="card-content">
 
             <b-field label="ID" class="info-column" style="width: 100px">
@@ -10,35 +10,9 @@
                 <b-input v-model="name" :disabled="!edit_mode"></b-input>
             </b-field>
 
-            <b-field label="Permissions" class="info-column" style="width: 340px">
+            <b-field label="Roles" class="info-column" style="width: 340px">
                 <b-taginput
-                        v-model="permissions"
-                        :data="all_permissions"
-                        :autocomplete="edit_mode"
-                        :open-on-focus="edit_mode"
-                        :closable="edit_mode"
-                        attached
-                        field="name"
-                        readonly>
-                </b-taginput>
-            </b-field>
-
-            <b-field label="Users" class="info-column" style="width: 340px">
-                <b-taginput
-                        v-model="users"
-                        :data="all_users"
-                        :autocomplete="edit_mode"
-                        :open-on-focus="edit_mode"
-                        :closable="edit_mode"
-                        attached
-                        field="name"
-                        readonly>
-                </b-taginput>
-            </b-field>
-
-            <b-field label="Parents" class="info-column" style="width: 340px">
-                <b-taginput
-                        v-model="parents"
+                        v-model="roles"
                         :data="all_roles"
                         :autocomplete="edit_mode"
                         :open-on-focus="edit_mode"
@@ -49,23 +23,10 @@
                 </b-taginput>
             </b-field>
 
-            <b-field label="Children" class="info-column" style="width: 340px">
+            <b-field label="Units" class="info-column" style="width: 340px">
                 <b-taginput
-                        v-model="children"
-                        :data="all_roles"
-                        :autocomplete="edit_mode"
-                        :open-on-focus="edit_mode"
-                        :closable="edit_mode"
-                        attached
-                        field="name"
-                        readonly>
-                </b-taginput>
-            </b-field>
-
-            <b-field label="Incompatible roles" class="info-column" style="width: 340px">
-                <b-taginput
-                        v-model="incompatible_roles"
-                        :data="all_roles"
+                        v-model="units"
+                        :data="all_units"
                         :autocomplete="edit_mode"
                         :open-on-focus="edit_mode"
                         :closable="edit_mode"
@@ -105,7 +66,7 @@
 </template>
 
 <style lang="scss" scoped>
-    .role {
+    .permission {
         width: 100%;
         margin-bottom: 20px;
         .card-content {
@@ -128,24 +89,21 @@
 <script>
     export default {
         props: {
-            role: { default: null }
+            permission: { default: null }
         },
         data() {
             return {
                 id: "-",
                 name: "",
-                permissions: [],
-                users: [],
-                parents: [],
-                children: [],
-                incompatible_roles: [],
+                units: [],
+                roles: [],
 
                 create_mode: false,
                 edit_mode: false,
             }
         },
         mounted() {
-            if (this.role === null) {
+            if (this.permission === null) {
                 this.create_mode = true;
                 this.edit_mode = true;
             }
@@ -158,17 +116,14 @@
             },
             on_delete() {
                 if (confirm("Are you sure?"))
-                    this.$store.dispatch('delete_role', this.id);
+                    this.$store.dispatch('delete_permission', this.id);
             },
             on_save() {
-                this.$store.dispatch('update_role', {
+                this.$store.dispatch('update_permission', {
                     id: this.id,
                     name: this.name,
-                    permissions: this.permissions,
-                    parents: this.parents,
-                    users: this.users,
-                    children: this.children,
-                    incompatible_roles: this.incompatible_roles
+                    units: this.units,
+                    roles: this.roles
                 });
                 if (this.create_mode)
                     this.reset_fields();
@@ -178,48 +133,24 @@
             reset_fields() {
                 if (this.create_mode) {
                     this.name = "";
-                    this.permissions = [];
-                    this.users = [];
-                    this.children = [];
-                    this.parents = [];
-                    this.incompatible_roles = [];
+                    this.units = [];
+                    this.roles = [];
                     return;
                 }
 
-                this.id = this.role.id;
-                this.name = this.role.name;
+                this.id = this.permission.id;
+                this.name = this.permission.name;
 
-                this.permissions = [];
-                for (let permission of this.role.permissions) {
-                    this.permissions.push(
-                        this.all_permissions.find(_permission => _permission.id === permission.id)
+                this.units = [];
+                for (let unit of this.permission.units) {
+                    this.units.push(
+                        this.all_units.find(_unit => _unit.id === unit.id)
                     );
                 }
 
-                this.users = [];
-                for (let user of this.role.users) {
-                    this.users.push(
-                        this.all_users.find(_user => _user.id === user.id)
-                    );
-                }
-
-                this.parents = [];
-                for (let parent of this.role.parents) {
-                    this.parents.push(
-                        this.all_roles.find(_role => _role.id === parent.id)
-                    );
-                }
-
-                this.children = [];
-                for (let child of this.role.children) {
-                    this.children.push(
-                        this.all_roles.find(_role => _role.id === child.id)
-                    );
-                }
-
-                this.incompatible_roles = [];
-                for (let r of this.role.incompatible_roles) {
-                    this.incompatible_roles.push(
+                this.roles = [];
+                for (let r of this.permission.roles) {
+                    this.roles.push(
                         this.all_roles.find(_role => _role.id === r.id)
                     );
                 }
@@ -229,8 +160,8 @@
             all_permissions() {
                 return this.$store.getters.permissions;
             },
-            all_users() {
-                return this.$store.getters.users;
+            all_units() {
+                return this.$store.getters.units;
             },
             all_roles() {
                 return this.$store.getters.roles;

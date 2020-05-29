@@ -1,48 +1,5 @@
 const axios = require('axios').default;
 
-let PERMISSIONS_MOCK = [
-    { id: 1, name: "Какать"},
-    { id: 2, name: "Пукать"},
-    { id: 3, name: "Жульничать"}
-]
-
-let PERMISSIONS_NEXT_ID = 4;
-
-let ROLES_MOCK = [
-    {
-        id: 1,
-        name: "Бомж",
-        permissions: [ PERMISSIONS_MOCK[0], PERMISSIONS_MOCK[1] ]
-    },
-    {
-        id: 2,
-        name: "Лох",
-        permissions: [ PERMISSIONS_MOCK[0] ]
-    },
-    {
-        id: 3,
-        name: "Мошенник",
-        permissions: [ PERMISSIONS_MOCK[1], PERMISSIONS_MOCK[2] ]
-    }
-]
-
-let ROLES_NEXT_ID = 4;
-
-let USERS_MOCK = [
-    {
-        id: 1,
-        name: "Петр",
-        roles: [ ROLES_MOCK[0], ROLES_MOCK[1] ]
-    },
-    {
-        id: 2,
-        name: "Идар",
-        roles: [ ROLES_MOCK[1], ROLES_MOCK[2] ]
-    },
-]
-
-let USERS_NEXT_ID = 3;
-
 const LOADING_TIMEOUT = 1000;
 
 function deep_copy(data) {

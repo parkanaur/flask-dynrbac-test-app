@@ -86,6 +86,7 @@ db.create_all()
 # Init RBAC
 rbac = DynRBAC(app, role_class=models.Role, user_class=models.User, permission_class=models.Permission,
                session=db.session, user_id_provider=lambda: current_user_id, unit_class=models.Unit)
+rbac.create_missing_units = True
 
 # Init RBAC API
 rbac_api = generate_rbac_api(app)

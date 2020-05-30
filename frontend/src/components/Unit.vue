@@ -27,7 +27,7 @@
         <div class="card-content">
             <b-field label="‎ " class="crud-btn">
                 <b-button type="is-success" icon-right="content-save-outline" @click="on_save" :disabled="!edit_mode">
-                    Save
+                    {{ create_mode ? "Create": "Save"}}
                 </b-button>
             </b-field>
 
@@ -105,15 +105,21 @@
                     this.$store.dispatch('delete_unit', this.id);
             },
             on_save() {
-                this.$store.dispatch('update_unit', {
-                    id: this.id,
-                    name: this.name,
-                    permissions: this.permissions
-                });
-                if (this.create_mode)
+                if (this.create_mode) {
+                    this.$store.dispatch('create_unit', {
+                        name: this.name,
+                        permissions: this.permissions
+                    });
                     this.reset_fields();
-                else
+                }
+                else {
+                    this.$store.dispatch('update_unit', {
+                        id: this.id,
+                        name: this.name,
+                        permissions: this.permissions
+                    });
                     this.edit_mode = false;
+                }
             },
             reset_fields() {
                 if (this.create_mode) {

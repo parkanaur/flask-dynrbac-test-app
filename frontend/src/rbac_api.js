@@ -1,66 +1,86 @@
 const axios = require('axios').default;
 
-const LOADING_TIMEOUT = 1000;
-
-function deep_copy(data) {
-    return JSON.parse(JSON.stringify(data));
-}
-
 const api = {
-    get_permissions() {
-        return axios.get(`/api/rbac/permissions`)
+    get_users() {
+        return axios.get(`/api/rbac/users`)
     },
     get_roles() {
         return axios.get(`/api/rbac/roles`)
     },
-    get_users() {
-        return axios.get(`/api/rbac/users`)
+    get_permissions() {
+        return axios.get(`/api/rbac/permissions`)
     },
     get_units() {
         return axios.get(`/api/rbac/units`)
     },
 
-    update_user(user) {
-        let o = {};
-        o['name'] = user.name;
-        o['update_roles'] = true;
-        o['role_ids'] = user.roles.map(obj => obj.id);
+    create_user(user) {
+        return axios.post(`/api/rbac/users`, {
+            name: user.name,
+            role_ids: user.roles.map(obj => obj.id)
+        });
+    },
+    create_role(role) {
+        return axios.post(`/api/rbac/roles`, {
+            name: role.name,
+            permission_ids: role.permissions.map(obj => obj.id),
+            parent_ids: role.parents.map(obj => obj.id),
+            child_ids: role.children.map(obj => obj.id),
+            user_ids: role.users.map(obj => obj.id),
+            incompatible_ids: role.incompatible_roles.map(obj => obj.id)
+        });
+    },
+    create_permission(permission) {
+        return axios.post(`/api/rbac/permissions`, {
+            name: permission.name,
+            role_ids: permission.roles.map(obj => obj.id),
+            unit_ids:  permission.units.map(obj => obj.id)
+        });
+    },
+    create_unit(unit) {
+        return axios.post(`/api/rbac/units`, {
+            name: unit.name,
+            permission_ids: unit.permissions.map(obj => obj.id)
+        });
+    },
 
-        return axios.put(`/api/rbac/users/${user.id}`, o);
+    update_user(user) {
+        return axios.put(`/api/rbac/users/${user.id}`, {
+            name: user.name,
+            update_roles: true,
+            role_ids: user.roles.map(obj => obj.id)
+        });
     },
     update_role(role) {
-        let o = {};
-        o['name'] = role.name;
-        o['update_permissions'] = true;
-        o['permission_ids'] = role.permissions.map(obj => obj.id);
-        o['update_parents'] = true;
-        o['parent_ids'] = role.parents.map(obj => obj.id);
-        o['update_children'] = true;
-        o['child_ids'] = role.children.map(obj => obj.id);
-        o['update_users'] = true;
-        o['user_ids'] = role.users.map(obj => obj.id);
-        o['update_incompatible'] = true;
-        o['incompatible_ids'] = role.incompatible_roles.map(obj => obj.id);
-
-        return axios.put(`/api/rbac/roles/${role.id}`, o);
+        return axios.put(`/api/rbac/roles/${role.id}`, {
+            name: role.name,
+            update_permissions: true,
+            permission_ids: role.permissions.map(obj => obj.id),
+            update_parents: true,
+            parent_ids: role.parents.map(obj => obj.id),
+            update_children: true,
+            child_ids: role.children.map(obj => obj.id),
+            update_users: true,
+            user_ids: role.users.map(obj => obj.id),
+            update_incompatible: true,
+            incompatible_ids: role.incompatible_roles.map(obj => obj.id)
+        });
     },
     update_permission(permission) {
-        let o = {};
-        o['name'] = permission.name;
-        o['update_roles'] = true;
-        o['role_ids'] = permission.roles.map(obj => obj.id);
-        o['update_units'] = true;
-        o['unit_ids'] = permission.units.map(obj => obj.id);
-
-        return axios.put(`/api/rbac/permissions/${permission.id}`, o);
+        return axios.put(`/api/rbac/permissions/${permission.id}`, {
+            name: permission.name,
+            update_roles: true,
+            role_ids: permission.roles.map(obj => obj.id),
+            update_units: true,
+            unit_ids:  permission.units.map(obj => obj.id)
+        });
     },
     update_unit(unit) {
-        let o = {};
-        o['name'] = unit.name;
-        o['update_permissions'] = true;
-        o['permission_ids'] = unit.permissions.map(obj => obj.id);
-
-        return axios.put(`/api/rbac/units/${unit.id}`, o);
+        return axios.put(`/api/rbac/units/${unit.id}`, {
+            name: unit.name,
+            update_permissions: true,
+            permission_ids: unit.permissions.map(obj => obj.id)
+        });
     },
 
     delete_user(id) {

@@ -103,6 +103,31 @@ export default new Vuex.Store({
             });
         },
 
+        create_user(context, user) {
+            api.create_user(user).then(response => {
+                user.id = response.data.id;
+                context.commit('update_user', user);
+            })
+        },
+        create_role(context, role) {
+            api.create_role(role).then(response => {
+                role.id = response.data.id;
+                context.commit('update_role', role);
+            })
+        },
+        create_permission(context, permission) {
+            api.create_permission(permission).then(response => {
+                permission.id = response.data.id;
+                context.commit('update_permission', permission);
+            })
+        },
+        create_unit(context, unit) {
+            api.create_unit(unit).then(response => {
+                unit.id = response.data.id;
+                context.commit('update_unit', unit);
+            })
+        },
+
         update_user(context, user) {
             api.update_user(user).then(response => {
                 context.commit('update_user', user);

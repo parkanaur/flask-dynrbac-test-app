@@ -4,7 +4,7 @@
         <user/>
         <div class="title" style="margin-top: 50px">Existing users</div>
         <transition-group name="list-complete" tag="div" class="users">
-            <user v-for="user in users" :user="user" :key="user.id" class="list-complete-item"/>
+            <user v-for="user in reversedUsers" :user="user" :key="user.id" class="list-complete-item"/>
         </transition-group>
     </div>
 </template>
@@ -47,6 +47,9 @@
         computed: {
             users() {
                 return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.users;
+            },
+            reversedUsers() {
+                return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.users.slice().reverse();
             }
         },
         components: {

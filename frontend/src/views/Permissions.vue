@@ -4,7 +4,7 @@
         <permission/>
         <div class="title" style="margin-top: 50px">Existing permissions</div>
         <transition-group name="list-complete" tag="div" class="permissions">
-            <permission v-for="permission in permissions" :permission="permission" :key="permission.id" class="list-complete-item"/>
+            <permission v-for="permission in reversedPermissions" :permission="permission" :key="permission.id" class="list-complete-item"/>
         </transition-group>
     </div>
 </template>
@@ -48,6 +48,9 @@
         computed: {
             permissions() {
                 return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.permissions;
+            },
+            reversedPermissions() {
+                return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.permissions.slice().reverse();
             }
         },
         components: {

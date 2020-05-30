@@ -4,7 +4,7 @@
         <unit/>
         <div class="title" style="margin-top: 50px">Existing permissions</div>
         <transition-group name="list-complete" tag="div" class="units">
-            <unit v-for="unit in units" :unit="unit" :key="unit.id" class="list-complete-item"/>
+            <unit v-for="unit in reversedUnits" :unit="unit" :key="unit.id" class="list-complete-item"/>
         </transition-group>
     </div>
 </template>
@@ -47,6 +47,9 @@
         computed: {
             units() {
                 return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.units;
+            },
+            reversedUnits() {
+                return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.units.slice().reverse();
             }
         },
         components: {

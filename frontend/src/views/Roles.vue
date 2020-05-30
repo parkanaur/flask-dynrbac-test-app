@@ -4,7 +4,7 @@
         <role/>
         <div class="title" style="margin-top: 50px">Existing roles</div>
         <transition-group name="list-complete" tag="div" class="roles">
-            <role v-for="role in roles" :role="role" :key="role.id" class="list-complete-item"/>
+            <role v-for="role in reversedRoles" :role="role" :key="role.id" class="list-complete-item"/>
         </transition-group>
     </div>
 </template>
@@ -48,6 +48,9 @@
         computed: {
             roles() {
                 return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.roles;
+            },
+            reversedRoles() {
+                return this.$store.getters.loading_cnt > 0 ? [] : this.$store.getters.roles.slice().reverse();
             }
         },
         components: {

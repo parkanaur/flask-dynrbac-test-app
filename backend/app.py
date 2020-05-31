@@ -105,16 +105,16 @@ def get_cid():
     return jsonify({"id": current_user_id})
 
 
-@app.route('/')
-@rbac.rbac(unit_name='test1')
+@app.route('/api/test_unit1')
+@rbac.rbac(unit_name='unit1')
 def hello_world():
-    return 'Hello World!'
+    return 'Hello World from Unit 1'
 
 
-@app.route('/test')
-@rbac.rbac(unit_name='test2')
+@app.route('/api/test_unit2')
+@rbac.rbac(unit_name='unit2')
 def x():
-    return 'x'
+    return 'Hello World from Unit 2'
 
 
 if __name__ == '__main__':

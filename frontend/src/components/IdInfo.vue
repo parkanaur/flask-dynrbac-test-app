@@ -35,6 +35,10 @@
         methods: {
             on_save() {
                 this.$store.dispatch('update_user_id', this.user_id);
+                this.$buefy.toast.open({
+                    "message": "Saved new user ID",
+                    "type": "is-success"
+                });
             }
         },
         computed: {

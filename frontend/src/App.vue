@@ -6,6 +6,8 @@
             <router-link to="/roles" class="lnk">Roles</router-link>
             <router-link to="/permissions" class="lnk">Permissions</router-link>
             <router-link to="/units" class="lnk">Units</router-link>
+            <a href="/api/test_unit1" class="lnk lnk-orange">Unit 1</a>
+            <a href="/api/test_unit2" class="lnk lnk-orange">Unit 2</a>
         </div>
         <IdInfo></IdInfo>
         <loading v-if="$store.getters.loading_cnt > 0"/>
@@ -35,6 +37,13 @@
         &.router-link-exact-active {
             text-decoration: underline;
         }
+    }
+
+    .lnk-orange {
+        font-size: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: orange;
     }
 </style>
 

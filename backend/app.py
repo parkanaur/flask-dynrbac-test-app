@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_dynrbac import DynRBAC
 from flask_dynrbac.api import generate_rbac_api
 from flask_dynrbac.domain_model_generator import DomainModelGenerator
@@ -92,11 +92,17 @@ rbac.create_missing_units = True
 rbac_api = generate_rbac_api(app)
 
 
-@app.route('/api/set_user_id')
+@app.route('/api/rbac/set_user_id')
 def set_cid():
     global current_user_id
     current_user_id = int(request.args.get('id', 1))
     return 'ok'
+
+
+@app.route('/api/rbac/get_user_id')
+def get_cid():
+    global current_user_id
+    return jsonify({"id": current_user_id})
 
 
 @app.route('/')

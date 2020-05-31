@@ -1,6 +1,13 @@
 const axios = require('axios').default;
 
 const api = {
+    get_user_id() {
+        return axios.get(`/api/rbac/get_user_id`)
+    },
+    set_user_id(user_id) {
+        return axios.get(`/api/rbac/set_user_id?id=${user_id}`)
+    },
+
     get_users() {
         return axios.get(`/api/rbac/users`)
     },

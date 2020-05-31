@@ -7,6 +7,7 @@
             <router-link to="/permissions" class="lnk">Permissions</router-link>
             <router-link to="/units" class="lnk">Units</router-link>
         </div>
+        <IdInfo></IdInfo>
         <loading v-if="$store.getters.loading_cnt > 0"/>
         <router-view v-show="$store.getters.loading_cnt === 0"/>
     </div>
@@ -39,10 +40,12 @@
 
 <script>
     import Loading from '@/components/Loading.vue';
+    import IdInfo from '@/components/IdInfo.vue';
 
     export default {
         components: {
-            Loading
+            Loading,
+            IdInfo
         }
     }
 </script>

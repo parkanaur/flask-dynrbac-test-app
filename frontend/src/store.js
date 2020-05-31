@@ -10,7 +10,8 @@ export default new Vuex.Store({
         permissions: [],
         roles: [],
         users: [],
-        units: []
+        units: [],
+        user_id: 1,
     },
     getters: {
         loading_cnt: state => state.loading_cnt,
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         roles: state => state.roles,
         users: state => state.users,
         units: state => state.units,
+        user_id: state => state.user_id,
     },
     mutations: {
         inc_loading: (state) => state.loading_cnt += 1,
@@ -26,6 +28,7 @@ export default new Vuex.Store({
         set_roles: (state, data) => state.roles = data,
         set_users: (state, data) => state.users = data,
         set_units: (state, data) => state.units = data,
+        set_user_id: (state, data) => state.user_id = data,
 
         update_user(state, user) {
             let ind = state.users.findIndex(u => u.id === user.id);
@@ -74,6 +77,15 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        reload_user_id(context) {
+            api.get_user_id().then(data => {
+                context.commit('set_user_id', data.data.id);
+            })
+        },
+        update_user_id(context, user_id) {
+            api.set_user_id(user_id);
+        },
+
         reload_permissions(context) {
             context.commit('inc_loading');
             api.get_permissions().then(data => {

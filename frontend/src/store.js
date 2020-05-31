@@ -78,9 +78,12 @@ export default new Vuex.Store({
     },
     actions: {
         reload_user_id(context) {
-            api.get_user_id().then(data => {
-                context.commit('set_user_id', data.data.id);
-            })
+            return new Promise((resolve, reject) => {
+                api.get_user_id().then(data => {
+                    context.commit('set_user_id', data.data.id);
+                    resolve();
+                });
+            });
         },
         update_user_id(context, user_id) {
             api.set_user_id(user_id);

@@ -1,11 +1,16 @@
 <template>
     <div class="idinfo">
-        <b-field label="Current user ID">
-            <b-input v-model="user_id"></b-input>
-        </b-field>
-        <b-button type="is-success" @click="on_save">
-            Save user ID
-        </b-button>
+        <div v-if="user_id !== null">
+            <b-field label="Current user ID">
+                <b-input v-model="user_id"></b-input>
+            </b-field>
+            <b-button type="is-success" @click="on_save">
+                Save user ID
+            </b-button>
+        </div>
+        <div v-else>
+            Loading...
+        </div>
     </div>
 </template>
 
@@ -18,11 +23,13 @@
 <script>
     export default {
         mounted() {
-            this.$store.dispatch("reload_user_id");
+            this.$store.dispatch("reload_user_id").then(() => {
+                this.user_id = this.$store.getters.user_id;
+            })
         },
         data() {
             return {
-                user_id: this.$store.getters.user_id
+                user_id: null
             }
         },
         methods: {

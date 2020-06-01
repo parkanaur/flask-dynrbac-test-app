@@ -34,10 +34,16 @@
         },
         methods: {
             on_save() {
-                this.$store.dispatch('update_user_id', this.user_id);
-                this.$buefy.toast.open({
-                    "message": "Saved new user ID",
-                    "type": "is-success"
+                this.$store.dispatch('update_user_id', this.user_id).then(response => {
+                    this.$buefy.toast.open({
+                        "message": "Saved new user ID",
+                        "type": "is-success"
+                    });
+                }, error => {
+                    this.$buefy.toast.open({
+                        "message": "Failed updating user ID - check correctness",
+                        "type": "is-danger"
+                    });
                 });
             }
         },

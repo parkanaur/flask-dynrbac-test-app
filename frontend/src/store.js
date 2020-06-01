@@ -86,7 +86,7 @@ export default new Vuex.Store({
             });
         },
         update_user_id(context, user_id) {
-            api.set_user_id(user_id);
+            return api.set_user_id(user_id);
         },
 
         reload_permissions(context) {

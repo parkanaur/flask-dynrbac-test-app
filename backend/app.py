@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, abort, jsonify
 from flask_dynrbac import DynRBAC
 from flask_dynrbac.api import generate_rbac_api
 from flask_dynrbac.domain_model_generator import DomainModelGenerator
@@ -96,6 +96,9 @@ rbac_api = generate_rbac_api(app)
 def set_cid():
     global current_user_id
     current_user_id = int(request.args.get('id', 1))
+    u = db.session.query(models.User).filter(models.User.id == current_user_id).first()
+    if u is None:
+        return abort(400)
     return 'ok'
 
 
